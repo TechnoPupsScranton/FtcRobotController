@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
@@ -17,11 +16,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  * This one file/class can be used by ALL OpModes without having to cut & paste the code each time.
  *
  * Where possible, the actual hardware objects are "abstracted" (or hidden) so the OpMode code
- * just makes calls into the class,
- * rather than accessing the internal hardware directly. This is why the objects are declared
- * "private".
+ * just makes calls into the class, rather than accessing the internal hardware directly. This is
+ * why the objects are declared "private".
  */
 public class RobotHardware {
+
+    // Declare OpMode members.
+    private OpMode myOpMode; // Get access to methods in the OpMode.
+    // Define Motor objects.
+    private DcMotorEx lF, rF, lB, rB;
+    private IMU imu;
+    // Define and set defaults for robot.
+    private DriveChassis robotChassis = DriveChassis.TWO_WHEEL;
+    private DriveMode robotDrive = DriveMode.POV; // Set default to POV
 
     // Define Chassis constants. Made public to be used with init calls.
     public enum DriveChassis {
@@ -38,17 +45,6 @@ public class RobotHardware {
         DriveMode(String s) {
         }
     }
-
-    // Declare OpMode members.
-    private OpMode myOpMode; // Get access to methods in the OpMode.
-
-    // Define Motor objects.
-    private DcMotorEx lF, rF, lB, rB;
-    private IMU imu;
-
-    // Define and set defaults for robot.
-    private DriveChassis robotChassis = DriveChassis.TWO_WHEEL;
-    private DriveMode robotDrive = DriveMode.POV; // Set default to POV
 
     /**
      * Class constructor.
@@ -192,9 +188,9 @@ public class RobotHardware {
      * robot motions: Drive (Axial/Lateral motion) and Turn (Yaw motion).
      * Then sends these power levels to the motors.
      *
-     * @param axial Forward/Backward movement. Depends on driveMode.
+     * @param axial   Forward/Backward movement. Depends on driveMode.
      * @param lateral Left/Right movement. Depends on driveMode.
-     * @param yaw Turning movement.
+     * @param yaw     Turning movement.
      */
     public void driveRobot(double axial, double lateral, double yaw) {
         double leftFrontPower = 0.0;
