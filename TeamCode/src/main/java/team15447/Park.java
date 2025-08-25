@@ -1,55 +1,47 @@
-package org.firstinspires.ftc.team15447;
+package team15447;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.CRServo;
 
-@Autonomous(name = "Orange Auton")
-public class BetterAutoForRobot1 extends LinearOpMode {
+@Autonomous(name = "Orange Right Auton")
+public class Park extends LinearOpMode {
 
     static final int CYCLE_MS = 50;     // period of each cycle
 
     DcMotor leftDrive = null;  //  Used to control the left drive wheel
     DcMotor rightDrive = null;  //  Used to control the right drive wheel
-    DcMotor armDrive = null;
-    CRServo elbowServo = null;
-    Servo spin = null;
 
     private final ElapsedTime runtime = new ElapsedTime();
+    double leftPower = 0;      // Desired forward power/speed (-1 to +1)
+    double rightPower = 0;
 
     @Override
     public void runOpMode() {
 
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        armDrive = hardwareMap.get(DcMotor.class, "arm_drive");
-        elbowServo = hardwareMap.get(CRServo.class, "Elbow");
-        spin = hardwareMap.get(Servo.class, "spin");
 
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
-        armDrive.setDirection(DcMotor.Direction.REVERSE);
-        spin.setDirection(Servo.Direction.FORWARD);
-        elbowServo.setDirection(CRServo.Direction.REVERSE);
-        armDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors.");
         telemetry.update();
-
-        // Autonomous code
         waitForStart();
-        moveArm(0.5, -1, 0.5, 1.5); // to put robot arm in position.
-        moveArm(0, -1, 0.5, 3);
+        // Ramp motor speeds till stop pressed.
+
+        // drive robot according to autonomous plans in Orange rocket notebook
+        moveRobot(1, 1, 1);
 
 
+        // Add arm times when we know how fast each part is.
+
+        // Turn off motor and signal done;
         telemetry.addData(">", "Done");
         telemetry.update();
-        idle();
     }
 
     /*
@@ -83,32 +75,10 @@ public class BetterAutoForRobot1 extends LinearOpMode {
             leftDrive.setPower(leftSpeed);
             rightDrive.setPower(rightSpeed);
 
-
+            sleep(CYCLE_MS);
+            idle();
         }
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        sleep(CYCLE_MS);
-        idle();
     }
 
 
-    public void moveArm(double basePower, double elbowPower, double clawPosition,
-                        double timeCycle) {
-        if (basePower > 1) {
-            basePower = 1;
-        }
-        spin.setPosition(clawPosition);
-
-
-        runtime.reset();
-        runtime.startTime();
-        while (runtime.seconds() <= timeCycle) {
-            armDrive.setPower(basePower);
-            elbowServo.setPower(elbowPower);
-        }
-        armDrive.setPower(0);
-        elbowServo.setPower(0);
-        sleep(CYCLE_MS);
-        idle();
-    }
 }

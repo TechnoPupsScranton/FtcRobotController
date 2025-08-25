@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.team15447;
+package team15447;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
