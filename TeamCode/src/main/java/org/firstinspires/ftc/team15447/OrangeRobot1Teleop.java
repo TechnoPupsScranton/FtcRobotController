@@ -1,12 +1,13 @@
 
 package org.firstinspires.ftc.team15447;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
-
+@Disabled
 @TeleOp(name = "Orange Robot 1")
 public class OrangeRobot1Teleop extends LinearOpMode {
 

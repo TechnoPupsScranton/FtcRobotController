@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "4-Wheel Drive", group = "Robot Centric")
@@ -26,10 +27,10 @@ public class FourWheelDriveRobot extends OpMode {
         rB = hardwareMap.get(DcMotorEx.class, "rightBack");
 
 
-        lF.setDirection(DcMotor.Direction.REVERSE);
+        lF.setDirection(DcMotor.Direction.FORWARD);
         lB.setDirection(DcMotor.Direction.REVERSE);
         rF.setDirection(DcMotor.Direction.FORWARD);
-        rB.setDirection(DcMotor.Direction.FORWARD);
+        rB.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -64,8 +65,8 @@ public class FourWheelDriveRobot extends OpMode {
         // Set up a variable for each drive wheel to save the power level for telemetry.
         double leftFrontPower = axial + lateral + yaw;
         double rightFrontPower = axial - lateral - yaw;
-        double leftBackPower = axial - lateral + yaw;
-        double rightBackPower = axial + lateral - yaw;
+        double leftBackPower = axial + lateral - yaw;
+        double rightBackPower = axial - lateral + yaw;
 
         // Normalize the values so no wheel power exceeds 100%
         // This ensures that the robot maintains the desired motion.
@@ -90,12 +91,12 @@ public class FourWheelDriveRobot extends OpMode {
         //      the setDirection() calls above.
         // Once the correct motors move in the correct direction re-comment this code.
 
-            /*
+
             leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
             leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
             rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
-            */
+
 
         // Send calculated power to wheels
         lF.setPower(leftFrontPower);

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -31,10 +32,10 @@ public class FourWheelDriveField extends OpMode {
         rB = hardwareMap.get(DcMotorEx.class, "rightBack");
         imu = hardwareMap.get(IMU.class, "imu");
 
-        lF.setDirection(DcMotor.Direction.REVERSE);
+        lF.setDirection(DcMotor.Direction.FORWARD);
         lB.setDirection(DcMotor.Direction.REVERSE);
         rF.setDirection(DcMotor.Direction.FORWARD);
-        rB.setDirection(DcMotor.Direction.FORWARD);
+        rB.setDirection(DcMotor.Direction.REVERSE);
 
         // Adjust the orientation parameters to match robot
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
@@ -90,9 +91,9 @@ public class FourWheelDriveField extends OpMode {
         // but only if at least one is out of the range [-1, 1]
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
         double leftFrontPower = (rotY + rotX + rx) / denominator;
-        double leftBackPower = (rotY - rotX + rx) / denominator;
-        double rightFrontPower = (rotY - rotX - rx) / denominator;
-        double rightBackPower = (rotY + rotX - rx) / denominator;
+        double rightFrontPower = (rotY + rotX + rx) / denominator;
+        double leftBackPower = (rotY + rotX - rx) / denominator;
+        double rightBackPower = (rotY - rotX + rx) / denominator;
 
         lF.setPower(leftFrontPower);
         lB.setPower(leftBackPower);
